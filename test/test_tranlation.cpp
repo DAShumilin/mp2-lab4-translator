@@ -66,3 +66,9 @@ TEST(ArithmeticExpression, can_divide_real_numbers) {
 
     EXPECT_EQ(expected, result);
 }
+TEST(ArithmeticExpression, new_test) {
+    ArithmeticExpression expression("2 * ");
+    std::ostream nowhere(nullptr);
+
+    EXPECT_ANY_THROW(expression.Calculate(std::cin, nowhere));
+}
