@@ -6,7 +6,7 @@
 class ArithmeticExpression {
 
     std::map<char, int> priority { {'+', 1}, {'-', 1}, {'*', 2}, {'/', 2} };
-    enum lType { number, variable, operation, begin, end, null };
+    enum lType { number, operation, begin, end, null };
     std::string text;
     std::vector<std::pair<lType, std::string>> infix;
     std::vector<std::pair<lType, std::string>> postfix;
@@ -65,20 +65,8 @@ class ArithmeticExpression {
                     b = i;
                     t = operation;
                 }
-                break;
-            case (variable):
-                if (isDigit(c)) {
-                    continue;
-                }
-                infix.emplace_back(variable, text.substr(b, i - b));
-                operands.insert({ text.substr(b,i - b), 0.0 });
-                if (isEnd(c)) {
-                    b = i;
-                    t = end;
-                }
-                else if (isOperation(c)) {
-                    b = i;
-                    t = operation;
+                else {
+                    throw "Error";
                 }
                 break;
             case (operation):
@@ -90,6 +78,9 @@ class ArithmeticExpression {
                 else if (isDigit(c) || isPoint(c) || isMinus(c)) {
                     b = i;
                     t = number;
+                }
+                else {
+                    throw "Error";
                 }
                 break;
             case (begin):
@@ -103,6 +94,9 @@ class ArithmeticExpression {
                     b = i;
                     t = number;
                 }
+                else {
+                    throw "Error";
+                }
                 break;
             case (end):
                 allBracketsAreClosed--;
@@ -115,6 +109,9 @@ class ArithmeticExpression {
                     b = i;
                     t = operation;
                 }
+                else {
+                    throw "Error";
+                }
                 break;
             case (null):
                 if (isBegin(c)) {
@@ -125,18 +122,24 @@ class ArithmeticExpression {
                     b = i;
                     t = number;
                 }
+                else {
+                    throw "Error";
+                }
                 break;
             }
         }
         infix.emplace_back(t, text.substr(b, text.size() - b));
-        if (t == variable) {
-            operands.insert({ text.substr(b,text.size() - b), 0.0 });
-        }
         if (t == end) {
             allBracketsAreClosed--;
         }
         if (t == begin) {
             allBracketsAreClosed++;
+        }
+        if (allBracketsAreClosed != 0) {
+            throw "Error";
+        }
+        if ((t != end && t != number)) {
+            throw "Error";
         }
     };
 
@@ -247,13 +250,13 @@ public:
                     st.pop();
                     left = st.top();
                     st.pop();
+                    if (right == 0) {
+                        throw "Error";
+                    }
                     st.push(left / right);
                     break;
                 default:
-                    if (lexem.first == variable)
-                        st.push(operands[lexem.second]);
-                    else
-                        st.push(stod(lexem.second));
+                    st.push(stod(lexem.second));
                 }
             }
         }

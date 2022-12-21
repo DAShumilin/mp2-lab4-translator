@@ -26,10 +26,16 @@ public:
     }
 
     T top() {
+        if (empty()) {
+            throw "Error";
+        }
         return data[sz - 1];
     }
 
     void pop() {
+        if (empty()) {
+            throw "Error";
+        }
         data.pop_back();
         sz--;
     }

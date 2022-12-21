@@ -66,3 +66,7 @@ TEST(ArithmeticExpression, can_divide_real_numbers) {
 
     EXPECT_EQ(expected, result);
 }
+TEST(ArithmeticExpression, new_test) {
+
+    EXPECT_ANY_THROW(ArithmeticExpression expression("2 * "));
+}
