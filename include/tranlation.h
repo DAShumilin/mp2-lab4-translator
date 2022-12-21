@@ -225,6 +225,9 @@ public:
             else {
                 switch (lexem.second[0]) {
                 case '+':
+                    if (postfix.size() < 3) {
+                        throw "Error";
+                    }
                     right = st.top();
                     st.pop();
                     left = st.top();
@@ -232,6 +235,9 @@ public:
                     st.push(left + right);
                     break;
                 case '-':
+                    if (postfix.size() < 3) {
+                        throw "Error";
+                    }
                     right = st.top();
                     st.pop();
                     left = st.top();
@@ -239,6 +245,9 @@ public:
                     st.push(left - right);
                     break;
                 case '*':
+                    if (postfix.size() < 3) {
+                        throw "Error";
+                    }
                     right = st.top();
                     st.pop();
                     left = st.top();
@@ -246,6 +255,9 @@ public:
                     st.push(left * right);
                     break;
                 case '/':
+                    if (postfix.size() < 3) {
+                        throw "Error";
+                    }
                     right = st.top();
                     st.pop();
                     left = st.top();
